@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "cd ios && pod install --repo-update"
+    "postinstall": "npx pod-install"
   },
   "dependencies": {
     "@react-native-community/picker": "^1.6.1",
