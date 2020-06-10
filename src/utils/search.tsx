@@ -7,8 +7,8 @@ const searchYelp = async (
 ) => {
   const {latitude = 0, longitude = 0} = userLocation;
   const searchParams = `term: ${term ? `"${term}"` : 'null'}, ${
-    location
-      ? `"${location}"`
+    location?.length
+      ? `location: "${location}"`
       : `latitude: ${latitude}, longitude: ${longitude}`
   }`;
 
