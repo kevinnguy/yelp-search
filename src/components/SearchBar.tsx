@@ -10,15 +10,17 @@ import {
 interface Props {
   onChangeBusiness: Function;
   onChangeLocation: Function;
+  onPressFilter: Function;
+  onPressToggle: Function;
   onSearch: Function;
-  onToggle: Function;
 }
 
 const SearchBar: React.FC<Props> = ({
   onChangeBusiness,
   onChangeLocation,
+  onPressFilter,
+  onPressToggle,
   onSearch,
-  onToggle,
 }) => (
   <View style={styles.container}>
     <View style={styles.flex}>
@@ -38,10 +40,10 @@ const SearchBar: React.FC<Props> = ({
       />
     </View>
     <View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={onPressFilter}>
         <Text style={styles.buttonText}>{'Filter'}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onToggle}>
+      <TouchableOpacity style={styles.button} onPress={onPressToggle}>
         <Text style={styles.buttonText}>{'Toggle View'}</Text>
       </TouchableOpacity>
     </View>
