@@ -21,9 +21,7 @@ import Business from './types/Business';
 import Coordinates from './types/Coordinates';
 
 import searchYelp from './utils/search';
-import yelpCategories from './utils/categories';
-
-const CATEGORY_ALL = 'all';
+import yelpCategories, {CATEGORY_ALL} from './utils/categories';
 
 const App = () => {
   // const mapRef = React.createRef();
@@ -54,11 +52,23 @@ const App = () => {
   };
 
   const onSearch = async () => {
-    const response = await searchYelp(searchTerm, searchLocation, userLocation);
+    const response = await searchYelp(
+      searchTerm,
+      searchLocation,
+      category,
+      userLocation,
+    );
     await setData(response);
   };
 
-  const onPressFilter = () => setShowFilter(!showFilter);
+  const onPressFilter = () => {
+    if (showFilter) {
+      // closing filter, make another search
+      onSearch();
+    }
+
+    setShowFilter(!showFilter);
+  };
 
   // Navigate to detail view
 

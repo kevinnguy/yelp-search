@@ -1,8 +1,11 @@
+import {CATEGORY_ALL} from './categories';
+
 import Coordinates from '../types/Coordinates';
 
 const searchYelp = async (
   term: string,
   location: string,
+  category: string,
   userLocation: Coordinates,
 ) => {
   const {latitude = 0, longitude = 0} = userLocation;
@@ -10,7 +13,7 @@ const searchYelp = async (
     location?.length
       ? `location: "${location}"`
       : `latitude: ${latitude}, longitude: ${longitude}`
-  }`;
+  }, ${category !== CATEGORY_ALL ? `categories: "${category}"` : ''}`;
 
   try {
     const response = await fetch('https://api.yelp.com/v3/graphql', {
