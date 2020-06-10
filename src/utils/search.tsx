@@ -1,6 +1,16 @@
-const searchYelp = async (term: string, location: string) => {
-  term = term ? `"${term}"` : 'null';
-  location = location ? `"${location}"` : '"san francisco"'; // default to san francisco
+import Coordinates from '../types/Coordinates';
+
+const searchYelp = async (
+  term: string,
+  location: string,
+  userLocation: Coordinates,
+) => {
+  const {latitude = 0, longitude = 0} = userLocation;
+  const searchParams = `term: ${term ? `"${term}"` : 'null'}, ${
+    location
+      ? `"${location}"`
+      : `latitude: ${latitude}, longitude: ${longitude}`
+  }`;
 
   try {
     const response = await fetch('https://api.yelp.com/v3/graphql', {
@@ -14,7 +24,7 @@ const searchYelp = async (term: string, location: string) => {
       },
       body: `
       {
-        search(term: ${term}, location: ${location}) {
+        search(${searchParams}) {
           business {
             id
             name
@@ -24,6 +34,10 @@ const searchYelp = async (term: string, location: string) => {
               address1
               city
               state
+            }
+            coordinates {
+              longitude
+              latitude
             }
           }
         }
