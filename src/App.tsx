@@ -11,7 +11,7 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, ScrollView, View, Text} from 'react-native';
 
-import List from './components/List';
+import BusinessList from './components/BusinessList';
 import Map from './components/Map';
 import SearchBar from './components/SearchBar';
 
@@ -274,10 +274,9 @@ const App = () => {
     latitude: 0,
     longitude: 0,
   });
+  const [showFilter, setShowFilter] = useState(false);
 
-  const toggleView = () => {
-    setShowMap(!showMap);
-  };
+  const toggleView = () => setShowMap(!showMap);
 
   const onChangeBusiness = (text: string) => setSearchTerm(text);
 
@@ -298,13 +297,16 @@ const App = () => {
     // mapRef.current.fitToElements();
   };
 
+  const onPressCategory = () => {};
+
   return (
     <SafeAreaView style={styles.map}>
       <SearchBar
         onChangeBusiness={onChangeBusiness}
         onChangeLocation={onChangeLocation}
         onSearch={onSearch}
-        onToggle={toggleView}
+        onPressFilter={onPressFilter}
+        onPressToggle={toggleView}
       />
       {showMap ? (
         <Map
@@ -313,7 +315,7 @@ const App = () => {
           onPressCallout={onPressBusiness}
         />
       ) : (
-        <List data={data} onPress={onPressBusiness} />
+        <BusinessList data={data} onPress={onPressBusiness} />
       )}
     </SafeAreaView>
   );

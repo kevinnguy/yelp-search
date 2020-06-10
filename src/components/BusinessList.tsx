@@ -16,7 +16,7 @@ const renderEmptyState = () => (
   <Text style={[styles.text, styles.emptyState]}>No search results</Text>
 );
 
-const List: React.FC<Props> = ({data, onPress}) => {
+const BusinessList: React.FC<Props> = ({data, onPress}) => {
   const renderItem = (props: ItemProps) => {
     const {item} = props;
     const {
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default List;
+export default BusinessList;
