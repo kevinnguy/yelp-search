@@ -91,7 +91,7 @@ const App = () => {
         <TouchableOpacity style={styles.button} onPress={navigatePop}>
           <Text style={styles.buttonText}>Back</Text>
         </TouchableOpacity>
-        <BusinessRow business={businessDetails} onPress={null} />
+        <BusinessRow business={businessDetails} onPress={() => {}} />
         {photos.map((uri) => (
           <Image style={styles.flex} key={uri} source={{uri}} />
         ))}
