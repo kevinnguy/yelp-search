@@ -1,4 +1,5 @@
 import Location from './Location';
+import Coordinates from './Coordinates';
 
 export default interface Business {
   id: string;
@@ -6,4 +7,5 @@ export default interface Business {
   rating: number;
   review_count: number;
   location: Location;
-}
+  coordinates: Coordinates;
+};
