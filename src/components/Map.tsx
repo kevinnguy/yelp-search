@@ -4,32 +4,39 @@ import MapView, {Marker} from 'react-native-maps';
 
 import Business from '../types/Business';
 
-interface Coordinate {
-  latitude: number;
-  longitude: number;
-}
-
-interface Location {
-  id: string;
-  name: string;
-  alias: string;
-  rating: number;
-  coordinate: Coordinate;
-}
-
 interface Props {
+  // ref: React.ReactNode;
   data: Array<Business>;
+  onChangeUserLocation: Function;
+  onPressCallout: Function;
 }
 
-const Map: React.FC<Props> = ({data}) => (
+const Map: React.FC<Props> = ({
+  // ref,
+  data,
+  onChangeUserLocation,
+  onPressCallout,
+}) => (
   <MapView
     showsUserLocation
     showsMyLocationButton
     style={styles.flex}
-    maxZoomLevel={13}>
-    {data.map(({coordinate, name}) => (
-      <Marker coordinate={coordinate} title={name} />
-    ))}
+    onUserLocationChange={({nativeEvent: {coordinate}}) =>
+      onChangeUserLocation(coordinate)
+    }>
+    {data.map((business) => {
+      const {id, name, rating, review_count, coordinates} = business;
+
+      return (
+        <Marker
+          key={id}
+          coordinate={coordinates}
+          title={name}
+          description={`⭐️${rating} | 👀${review_count}`}
+          onCalloutPress={() => onPressCallout(business)}
+        />
+      );
+    })}
   </MapView>
 );
 
@@ -39,4 +46,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// export default React.forwardRef((props, ref) => <Map ref={ref} {...props} />);
 export default Map;
