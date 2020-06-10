@@ -8,3 +8,4 @@
 ### Libraries used:
 - react-native (npx react-native init YelpSearch --template react-native-template-typescript)
 - react-native-maps
+- @react-native-community/picker
