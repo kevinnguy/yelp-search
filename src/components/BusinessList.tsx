@@ -1,5 +1,7 @@
 import React from 'react';
-import {FlatList, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {FlatList, Text, StyleSheet} from 'react-native';
+
+import BusinessRow from './BusinessRow';
 
 import Business from '../types/Business';
 
@@ -17,23 +19,8 @@ const renderEmptyState = () => (
 );
 
 const BusinessList: React.FC<Props> = ({data, onPress}) => {
-  const renderItem = (props: ItemProps) => {
-    const {item} = props;
-    const {
-      name,
-      rating,
-      review_count,
-      location: {address1, city, state},
-    } = item;
-
-    return (
-      <TouchableOpacity style={styles.row} onPress={() => onPress(item)}>
-        <Text style={styles.text}>{`${name}
-⭐️${rating} | 👀${review_count}
-${address1}
-${city}, ${state}`}</Text>
-      </TouchableOpacity>
-    );
+  const renderItem = ({item}: ItemProps) => {
+    return <BusinessRow business={item} onPress={onPress} />;
   };
 
   return (
@@ -51,19 +38,14 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  row: {
-    padding: 15,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'gray',
-  },
-  text: {
-    fontSize: 18,
-    lineHeight: 24,
-  },
   emptyState: {
     flex: 1,
     alignSelf: 'center',
     marginTop: 40,
+  },
+  text: {
+    fontSize: 18,
+    lineHeight: 24,
   },
 });
 

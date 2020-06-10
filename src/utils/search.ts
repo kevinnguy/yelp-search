@@ -42,6 +42,7 @@ const searchYelp = async (
               longitude
               latitude
             }
+            photos
           }
         }
       }

@@ -8,4 +8,5 @@ export default interface Business {
   review_count: number;
   location: Location;
   coordinates: Coordinates;
-};
+  photos: Array<String>;
+}

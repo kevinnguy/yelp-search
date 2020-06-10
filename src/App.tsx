@@ -9,7 +9,13 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 
 import BusinessList from './components/BusinessList';
@@ -22,11 +28,13 @@ import Coordinates from './types/Coordinates';
 
 import searchYelp from './utils/search';
 import yelpCategories, {CATEGORY_ALL} from './utils/categories';
+import BusinessRow from './components/BusinessRow';
 
 const App = () => {
-  // const mapRef = React.createRef();
-
   const [showMap, setShowMap] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
+  const [businessDetails, setBusinessDetails] = useState();
+
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
@@ -34,8 +42,9 @@ const App = () => {
     latitude: 0,
     longitude: 0,
   });
-  const [showFilter, setShowFilter] = useState(false);
   const [category, setCategory] = useState(CATEGORY_ALL);
+
+  const navigatePop = () => setBusinessDetails(null);
 
   const toggleView = () => setShowMap(!showMap);
 
@@ -49,6 +58,7 @@ const App = () => {
 
   const onPressBusiness = (business: Business) => {
     // navigate to another screen
+    setBusinessDetails(business);
   };
 
   const onSearch = async () => {
@@ -71,9 +81,26 @@ const App = () => {
   };
 
   // Navigate to detail view
+  // ideally this should be a separate file
+  // ex: src/screens/Details.tsx
+  // navigation should be managed with a lib (react-navigation, etc.)
+  if (businessDetails) {
+    const {photos = []} = businessDetails;
+    return (
+      <SafeAreaView style={[styles.flex, styles.details]}>
+        <TouchableOpacity style={styles.button} onPress={navigatePop}>
+          <Text style={styles.buttonText}>Back</Text>
+        </TouchableOpacity>
+        <BusinessRow business={businessDetails} onPress={null} />
+        {photos.map((uri) => (
+          <Image style={styles.flex} key={uri} source={{uri}} />
+        ))}
+      </SafeAreaView>
+    );
+  }
 
   return (
-    <SafeAreaView style={styles.map}>
+    <SafeAreaView style={styles.flex}>
       <SearchBar
         onChangeBusiness={onChangeBusiness}
         onChangeLocation={onChangeLocation}
@@ -110,12 +137,27 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  map: {
+  flex: {
     flex: 1,
+  },
+  details: {
+    margin: 15,
   },
   picker: {
     backgroundColor: '#dbdbdb',
     borderTopColor: 'gray',
+  },
+  button: {
+    height: 40,
+    width: 100,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'white',
   },
 });
 
