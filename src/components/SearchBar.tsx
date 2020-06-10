@@ -7,18 +7,42 @@ import {
   View,
 } from 'react-native';
 
-const SearchBar: React.FC<Props> = ({}) => (
+interface Props {
+  onChangeBusiness: Function;
+  onChangeLocation: Function;
+  onSearch: Function;
+  onToggle: Function;
+}
+
+const SearchBar: React.FC<Props> = ({
+  onChangeBusiness,
+  onChangeLocation,
+  onSearch,
+  onToggle,
+}) => (
   <View style={styles.container}>
     <View style={styles.flex}>
-      <TextInput style={styles.textInput} placeholder={'Business'} />
-      <TextInput style={styles.textInput} placeholder={'Current Location'} />
+      <TextInput
+        style={styles.textInput}
+        onChangeText={onChangeBusiness}
+        onSubmitEditing={onSearch}
+        placeholder={'Restaurants, cleaners, etc.'}
+        returnKeyType="search"
+      />
+      <TextInput
+        style={styles.textInput}
+        onChangeText={onChangeLocation}
+        onSubmitEditing={onSearch}
+        placeholder={'Current Location'}
+        returnKeyType="search"
+      />
     </View>
     <View>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>{'Filter'}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>{'View List'}</Text>
+      <TouchableOpacity style={styles.button} onPress={onToggle}>
+        <Text style={styles.buttonText}>{'Toggle View'}</Text>
       </TouchableOpacity>
     </View>
   </View>
