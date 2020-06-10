@@ -16,6 +16,7 @@ import Map from './components/Map';
 import SearchBar from './components/SearchBar';
 
 import Business from './types/Business';
+import Coordinates from './types/Coordinates';
 
 import searchYelp from './utils/search';
 
@@ -263,10 +264,16 @@ const mockData = [
 ];
 
 const App = () => {
-  const [showMap, setShowMap] = useState(false);
+  // const mapRef = React.createRef();
+
+  const [showMap, setShowMap] = useState(true);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
+  const [userLocation, setUserLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
 
   const toggleView = () => {
     setShowMap(!showMap);
@@ -276,14 +283,19 @@ const App = () => {
 
   const onChangeLocation = (text: string) => setSearchLocation(text);
 
-  const onPressRow = (business: Business) => {
+  const onChangeUserLocation = (coordinates: Coordinates) => {
+    setUserLocation(coordinates);
+  };
+
+  const onPressBusiness = (business: Business) => {
     // navigate to another screen
   };
 
   const onSearch = async () => {
-    console.warn('search', searchTerm, searchLocation);
-    const response = await searchYelp(searchTerm, searchLocation);
-    setData(response);
+    console.warn('search', searchTerm, searchLocation, userLocation);
+    const response = await searchYelp(searchTerm, searchLocation, userLocation);
+    await setData(response);
+    // mapRef.current.fitToElements();
   };
 
   return (
@@ -295,9 +307,13 @@ const App = () => {
         onToggle={toggleView}
       />
       {showMap ? (
-        <Map data={data} />
+        <Map
+          data={data}
+          onChangeUserLocation={onChangeUserLocation}
+          onPressCallout={onPressBusiness}
+        />
       ) : (
-        <List data={data} onPress={onPressRow} />
+        <List data={data} onPress={onPressBusiness} />
       )}
     </SafeAreaView>
   );
