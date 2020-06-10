@@ -38,6 +38,7 @@ ${city}, ${state}`}</Text>
 
   return (
     <FlatList
+      style={styles.flex}
       keyExtractor={(item) => `${item.id}`}
       data={data}
       ListEmptyComponent={renderEmptyState}
@@ -47,6 +48,9 @@ ${city}, ${state}`}</Text>
 };
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   row: {
     padding: 15,
     borderBottomWidth: StyleSheet.hairlineWidth,
